@@ -6,7 +6,11 @@ namespace SimpleCalculator
     {
         public static double ConvertInputToNumeric(string argTextInput)
         {
-            return 0;
+            if (!double.TryParse(argTextInput, out double convertedNumber))
+            {
+                throw new ArgumentException("Expected a numeric value.");
+            }
+            return convertedNumber;
         }
     }
 }
