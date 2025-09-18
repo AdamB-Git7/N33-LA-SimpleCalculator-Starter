@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
+using System.Threading;
+using SimpleCalculator.Ressources;
 
 namespace SimpleCalculator
 {
@@ -9,6 +12,21 @@ namespace SimpleCalculator
         {
             try
             {
+                // Language selection
+                Console.Write(Strings.SelectLanguage);
+                string langChoice = Console.ReadLine();
+
+                if (langChoice == "2")
+                {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("fr-FR");
+                }
+                else
+                {
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+                    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+                }
+
                 // Class to perform actual calculations
                 CalculatorEngine calculatorEngine = new CalculatorEngine();
 
@@ -16,33 +34,33 @@ namespace SimpleCalculator
                 double firstNumber;
                 while (true)
                 {
-                    Console.Write("Enter the first number: ");
+                    Console.Write(Strings.EnterFirstNumber);
                     string input1 = Console.ReadLine();
                     if (double.TryParse(input1, out firstNumber))
                     {
                         break; // Valid input, exit loop
                     }
-                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    Console.WriteLine(Strings.InvalidInput);
                 }
 
                 // Get second number with validation
                 double secondNumber;
                 while (true)
                 {
-                    Console.Write("Enter the second number: ");
+                    Console.Write(Strings.EnterSecondNumber);
                     string input2 = Console.ReadLine();
                     if (double.TryParse(input2, out secondNumber))
                     {
                         break; // Valid input, exit loop
                     }
-                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    Console.WriteLine(Strings.InvalidInput);
                 }
 
                 // Get operation with validation and help text
                 string operation;
                 while (true)
                 {
-                    Console.Write("Enter the operation (+, -, *, /): ");
+                    Console.Write(Strings.EnterOperation);
                     string input = Console.ReadLine();
 
                     // Check for valid symbols
@@ -52,48 +70,45 @@ namespace SimpleCalculator
                         break;
                     }
 
-                    // Check for valid words and convert them
-                    if (input?.ToLower() == "plus" || input?.ToLower() == "add")
+                    // Check for valid words and convert them (using localized strings)
+                    if (input?.ToLower() == Strings.Plus || input?.ToLower() == Strings.Add)
                     {
                         operation = "+";
                         break;
                     }
-                    else if (input?.ToLower() == "minus" || input?.ToLower() == "subtract")
+                    else if (input?.ToLower() == Strings.Minus || input?.ToLower() == Strings.Subtract)
                     {
                         operation = "-";
                         break;
                     }
-                    else if (input?.ToLower() == "multiply" || input?.ToLower() == "times")
+                    else if (input?.ToLower() == Strings.Multiply || input?.ToLower() == Strings.Times)
                     {
                         operation = "*";
                         break;
                     }
-                    else if (input?.ToLower() == "divide" || input?.ToLower() == "divided")
+                    else if (input?.ToLower() == Strings.Divide || input?.ToLower() == Strings.Divided)
                     {
                         operation = "/";
                         break;
                     }
 
                     // Show helpful error message (moved inside the loop)
-                    Console.WriteLine("Invalid operation entered.");
-                    Console.WriteLine("Valid operations are:");
-                    Console.WriteLine("  + or 'plus' or 'add' for addition");
-                    Console.WriteLine("  - or 'minus' or 'subtract' for subtraction");
-                    Console.WriteLine("  * or 'multiply' or 'times' for multiplication");
-                    Console.WriteLine("  / or 'divide' or 'divided' for division");
-                    Console.WriteLine("Please try again.");
+                    Console.WriteLine(Strings.InvalidOperation);
+                    Console.WriteLine(Strings.ValidOperations);
+                    Console.WriteLine(Strings.AdditionHelp);
+                    Console.WriteLine(Strings.SubtractionHelp);
+                    Console.WriteLine(Strings.MultiplicationHelp);
+                    Console.WriteLine(Strings.DivisionHelp);
+                    Console.WriteLine(Strings.TryAgain);
                     Console.WriteLine();
                 }
 
                 // Calculate and display result
                 double result = calculatorEngine.Calculate(operation, firstNumber, secondNumber);
 
-                // Create formatted output
-                StringBuilder output = new StringBuilder();
-                output.AppendFormat("The value {0:F2} {1} the value {2:F2} is equal to {3:F2}. ", firstNumber, operation, secondNumber, result);
-
-                Console.WriteLine(output.ToString());
-                Console.WriteLine($"Result: {result}");
+                // Create formatted output using localized strings
+                Console.WriteLine(string.Format(Strings.ResultFormat, firstNumber, operation, secondNumber, result));
+                Console.WriteLine(string.Format(Strings.Result, result));
 
             }
             catch (Exception ex)
