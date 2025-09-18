@@ -25,4 +25,4 @@ namespace SimpleCalculator.Test.Unit
             Assert.AreEqual(2, convertedNumber);
         }
     }
-}
+} 
