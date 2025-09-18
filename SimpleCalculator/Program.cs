@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SimpleCalculator
 {
@@ -86,6 +87,12 @@ namespace SimpleCalculator
 
                 // Calculate and display result
                 double result = calculatorEngine.Calculate(operation, firstNumber, secondNumber);
+
+                // Create formatted output
+                StringBuilder output = new StringBuilder();
+                output.AppendFormat("The value {0:F2} {1} the value {2:F2} is equal to {3:F2}. ", firstNumber, operation, secondNumber, result);
+
+                Console.WriteLine(output.ToString());
                 Console.WriteLine($"Result: {result}");
 
             }
