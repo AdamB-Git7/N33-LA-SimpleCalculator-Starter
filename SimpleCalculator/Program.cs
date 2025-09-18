@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using SimpleCalculator.Ressources;
+using CalculatorLibrary;
 
 namespace SimpleCalculator
 {
